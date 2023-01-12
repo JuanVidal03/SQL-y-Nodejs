@@ -1,0 +1,182 @@
+/* estilos generales */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+::selection{
+    background-color: #1d4e6b;
+    color: #fff;
+}
+
+::-webkit-scrollbar{
+    width: 1px;
+    background-color: #1d4e6b;
+}
+::-webkit-scrollbar-track{
+    background-color: #081a28;
+}
+::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background-color: #081a28;
+}
+
+body{
+    background-image: url('./images/background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    padding: 0 5rem;
+}
+
+
+/* estilos formulario y tabla*/
+.form-principal-section{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50px;
+    padding: 3rem;
+    margin-top: 5rem;
+    z-index: 0;
+}
+
+.form-section{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.input-product{
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid #9b9696;
+    padding-left: 1rem;
+    transition: all ease .5s;
+    font-weight: 700;
+}
+
+.input-product:focus{
+    border-radius: 0px;
+    background-color: #1d4e6b;
+    color: #fff;
+}
+.input-product::placeholder{
+    transition: all .5s ease;
+    font-weight: 700;
+}
+
+.input-product:focus::placeholder{
+    color: #fff;
+}
+
+.btn{
+    width: 40%;
+    height: 2.5rem;
+    background-color: #1d4e6b;
+    border-radius: 10px;
+    text-transform: uppercase;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    transition: all ease-in-out .3s;
+    padding: 0 1rem;
+}
+
+.btn:hover{
+    background-color: #fff;
+    border: 2px solid #1d4e6b;
+    color: #1d4e6b;
+}
+
+
+/* estilos tabla */
+.vista-productos-container{
+    margin-top: 3rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.table-container{
+    margin-top: 1rem;
+}
+tr{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: #27282d;
+}
+th{
+    padding: .5rem 0;
+    color: #fff;
+
+}
+td{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    color: #fff;
+}
+
+
+/* estilos de los mensajes */
+.mensajes-principal-section{
+    width: 50%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 3rem;
+    margin-top: 5rem;
+    z-index: 0;
+}
+
+.messages-container{
+    width: 100%;
+    display: flex;
+}
+
+.messages-author{
+    color: blue;
+    font-weight: 900;
+}
+
+.messages-text{
+    color: green;
+}

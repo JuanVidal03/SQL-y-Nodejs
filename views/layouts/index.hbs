@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de ingreso de productos</title>
+    {{!-- set up socket --}}
+    <script src="/socket.io/socket.io.js"></script>
+    {{!-- styles --}}
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <main id="main">
+        {{!-- Inicio form para agregar productos --}}
+        <div class="form-principal-section">
+            <div class="form-section">
+                <h1 class="form-title">Ingresa un nuevo producto!</h1>
+
+                <form class="form">
+
+                    <input id="nombre" class="input-product" type="text" name="nombre" placeholder="Nombre" required>
+
+                    <input id="precio" class="input-product" type="number" name="precio" placeholder="Precio" required >
+
+                    <input id="thumbnail" class="input-product" type="url" name="thumbnail" placeholder="URL de la miniatura" required>
+                    
+                    <input type="submit" value="Añadir Producto" onclick="sendProduct()" class="btn">
+                </form>
+            </div>
+
+            {{!-- tabla de productos --}}
+            <div class="vista-productos-container">
+
+                <h1>Vista de productos</h1>
+                {{!-- los productos se renderizan desde el archivo main.js --}}
+                <div id="renderProducts"></div>
+
+            </div>
+        </div>
+
+        {{{ body }}}
+
+    </main>
+
+    {{!-- archivo js --}}
+    <script src="./js/main.js"></script>
+</body>
+</html>

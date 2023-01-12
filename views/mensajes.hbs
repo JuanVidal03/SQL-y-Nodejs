@@ -1,0 +1,18 @@
+<div class="mensajes-principal-section">
+    <div class="form-section">
+        <h1 class="form-title">Centro de Mensajes</h1>
+
+        <form class="form">
+            <input id="email" class="input-product" type="email" name="email" placeholder="Correo Electrónico" required>
+            <input id="text" class="input-product" type="text" name="text" placeholder="Escribe un mensaje..." required >
+            <input type="submit" value="Enviar Mensaje" onclick="sendMessages()" class="btn">
+        </form>
+    </div>
+
+    {{!-- tabla de productos --}}
+    <div class="vista-productos-container">
+        {{!-- los productos se renderizan desde el archivo main.js --}}
+        <div id="renderMensajes"></div>
+
+    </div>
+</div>
