@@ -21,8 +21,8 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
-// options de conexión DB
-const options = require('./options/mariaDB.js');
+// options de conexión mariaDB
+const { options } = require('./options/mariaDB.js');
 
 // instanciaS de la clases products.js y messages.js
 const Products = require('./Products.js');
@@ -37,15 +37,16 @@ io.on('connection', async socket => {
     console.log('Nuevo usuario conectado!');
 
     // enviando los productos al cliente
-    const allProducts = await product.getAll();
+    const allProducts = await product.getAllProducts();
     socket.emit('products', allProducts );
 
     // escuchando los productos que envia el cliente
     socket.on('sendProduct', async data => {
 
-        // subiendo datos a fs
-        await product.save(data);
-        // enviando los productos actualziados
+        // subiendo productos a la DB
+        await product.insertProducts(data);
+
+        // enviando los productos actualzados
         io.sockets.emit('products', allProducts);
     });
 
@@ -67,10 +68,39 @@ io.on('connection', async socket => {
 app.get('/', async(req, res) => {
 
     try {
-        const allProducts = await product.getAll();
+        // variable que almacena todos los productos
+        let allProducts;
+
+            await product.getAllProducts()
+            .then(res => {
+                allProducts = res;
+                return allProducts;
+            })
+            .catch(err => {
+                console.log(`Hubo un error al obtener los productos: ${err}.`);
+            });
+
+        // renderización de los productos
         res.render('mensajes', { products: allProducts });
+
     } catch (error) {
         res.json({ error: `Ha ocurrido un error: ${error}` });
+    }
+});
+
+
+// eliminado producto por id
+app.delete('/delete/:id', async (req, res) => {
+
+    // obteniendo el id a eliminar
+    const id = parseInt(req.params.id);
+
+    try {
+        await product.deleteProductById(id);
+        res.send('Porduto eliminado con exito!');
+
+    } catch (error) {
+        
     }
 });
 

@@ -1,7 +1,7 @@
 const options ={
     client: 'mysql',
     connection: {
-        host: 'localost',
+        host: 'localhost',
         user: 'root',
         password: '',
         database: 'ecommerce-sql-ynodejs'
@@ -10,21 +10,4 @@ const options ={
 }
 
 
-module.exports = options;
-
-
-
-/*
-const knex = require('knex')({
-    client: 'mysql',
-    connection: {
-        host: 'localost',
-        user: 'root',
-        password: '',
-        database: 'ecommerce-sql-ynodejs'
-    },
-    pool: { min: 0, max: 10 }
-})
-
-module.exports = knex;
-*/
+module.exports = { options };
