@@ -1,8 +1,10 @@
 // requiriendo modulo fs
-const fs = require('fs');
+const { knex } = require('knex');
 
 // incio de la clase
 class Messages{
+
+    /*
     constructor(path){
         this.path = path;
     }
@@ -40,6 +42,45 @@ class Messages{
         } catch (error) {
             console.log(`ERROR: ${error}`);
         }
+    }
+    */
+
+    constructor(config, tableName){
+        this.knex = knex(config);
+        this.tableName = tableName;
+    }
+
+    // creando tabla
+    async crearTable(){
+        return await this.knex.schema.dropTableIfExists(this.tableName)
+            .finally(async () => {
+                return await this.knex.schema.createTable(this.tableName, table => {
+                    table.increments('id').primary();
+                    table.string('email').notNullable();
+                    table.string('text').notNullable();
+                    table.datetime('date').defaultTo( this.knex.fn.now());
+                })
+            })
+    }
+
+    // insertar mensajes
+    async insertMessages(message){
+        return await this.knex(this.tableName).insert(message);
+    }
+
+    // listar messages
+    async getAllMessages(){
+        return await this.knex(this.tableName).select('*');
+    }
+
+    // borrar mensaje por id
+    async deleteMessageById(id){
+        return await this.knex.from(this.tableName).where('id', id).del();
+    }
+
+    // terminar proceso
+    async close(){
+        return await this.knex.destroy();
     }
 }
 

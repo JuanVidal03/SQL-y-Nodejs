@@ -21,15 +21,17 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
-// options de conexión mariaDB
+// options mariaDB
 const { options } = require('./options/mariaDB.js');
+// options SQLite3
+const { SQLiteOptions } = require('./options/SQLite3.js');
 
 // instanciaS de la clases products.js y messages.js
 const Products = require('./Products.js');
 const product = new Products(options ,'productos');
 
 const Messages = require('./Messages.js');
-const message = new Messages('messages.json');
+const message = new Messages( SQLiteOptions,'messages');
 
 
 // configuración de socket.io
@@ -45,22 +47,30 @@ io.on('connection', async socket => {
 
         // subiendo productos a la DB
         await product.insertProducts(data);
-
         // enviando los productos actualzados
         io.sockets.emit('products', allProducts);
     });
 
 
-    // enviando mensajes al cliente
-    const allMessages = await message.getAllMessages();
-    socket.emit('messages', allMessages);
-
     // escuchando los mensajes que envía el cliente
     socket.on('sendMessage', async data => {
-
-        await message.saveMessages(data);
+        // guardando la data
+        await message.crearTable()
+        .then(async() => {
+            await message.insertMessages(data);
+        })
         io.sockets.emit('messages', allMessages);
     });
+    
+    // enviando mensajes al cliente
+    let allMessages;
+    await message.getAllMessages()
+        .then(res => {
+            console.log(res);
+            allMessages = res;
+            return allMessages;
+        });
+    socket.emit('messages', allMessages);
 });
 
 
@@ -90,19 +100,32 @@ app.get('/', async(req, res) => {
 
 
 // eliminado producto por id
-app.delete('/delete/:id', async (req, res) => {
+app.delete('/delete-product/:id', async (req, res) => {
 
     // obteniendo el id a eliminar
     const id = parseInt(req.params.id);
 
     try {
         await product.deleteProductById(id);
-        res.send('Porduto eliminado con exito!');
+        res.send('Producto eliminado con exito!');
 
     } catch (error) {
         
     }
 });
+
+// eliminando mensaje por id
+app.delete('/delete-message/:id', async(req, res) => {
+
+    const id = parseInt(req.params.id);
+
+    try {
+        await message.deleteMessageById(id);
+        res.send('Mensaje eliminado con exito!');
+    } catch (error) {
+        res.json(error);
+    }
+})
 
 
 // iniciando server y mapeando errores
