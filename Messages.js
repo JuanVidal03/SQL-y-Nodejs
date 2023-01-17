@@ -58,7 +58,8 @@ class Messages{
                     table.increments('id').primary();
                     table.string('email').notNullable();
                     table.string('text').notNullable();
-                    table.datetime('date').defaultTo( this.knex.fn.now());
+                    table.timestamp('date').defaultTo(this.knex.fn.now());
+                    // table.datetime('date').defaultTo( this.knex.fn.now());
                 })
             })
     }

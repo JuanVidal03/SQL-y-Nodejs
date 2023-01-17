@@ -52,25 +52,24 @@ io.on('connection', async socket => {
     });
 
 
+    // MESSAGES SET UP
+
     // escuchando los mensajes que envía el cliente
+    let allMessages;
     socket.on('sendMessage', async data => {
-        // guardando la data
-        await message.crearTable()
-        .then(async() => {
-            await message.insertMessages(data);
-        })
+        // insertando productos
+        await message.insertMessages(data);
         io.sockets.emit('messages', allMessages);
     });
     
     // enviando mensajes al cliente
-    let allMessages;
     await message.getAllMessages()
         .then(res => {
-            console.log(res);
             allMessages = res;
             return allMessages;
         });
     socket.emit('messages', allMessages);
+
 });
 
 
@@ -110,7 +109,7 @@ app.delete('/delete-product/:id', async (req, res) => {
         res.send('Producto eliminado con exito!');
 
     } catch (error) {
-        
+        res.json(error);
     }
 });
 
